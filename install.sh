@@ -4,17 +4,35 @@ ROOT_DIR=$(cd -- "$(dirname -- "$0")" && pwd)
 KVER=$(uname -r)
 BUILD_DIR=$(printenv BUILD_DIR || printf '%s\n' "$HOME/.local/share/hg680p-rtl8189fs")
 JOBS=$(printenv JOBS || printf '2\n')
-PREBUILT="$ROOT_DIR/prebuilt/$KVER/8189fs.ko"
+LOCAL_PREBUILT="$ROOT_DIR/prebuilt/$KVER/8189fs.ko"
+CACHED_PREBUILT="$BUILD_DIR/prebuilt/$KVER/8189fs.ko"
 MODULE=""
+
 fail() { echo "ERROR: $*" >&2; exit 1; }
 if [ "$EUID" -eq 0 ]; then fail "Run as a normal user: bash install.sh. The script uses sudo only for system changes."; fi
 command -v sudo >/dev/null 2>&1 || fail "sudo is required."
 sudo -v
-if [ -f "$PREBUILT" ]; then
-    echo "Found a local prebuilt module for kernel $KVER."
-    MODULE="$PREBUILT"
+
+if [ -f "$LOCAL_PREBUILT" ]; then
+    echo "Found a local prebuilt module in the project directory."
+    MODULE="$LOCAL_PREBUILT"
+elif [ -f "$CACHED_PREBUILT" ]; then
+    echo "Found a previously downloaded prebuilt module."
+    MODULE="$CACHED_PREBUILT"
 else
-    echo "No matching prebuilt module found. Preparing a source build."
+    if command -v curl >/dev/null 2>&1 && command -v sha256sum >/dev/null 2>&1; then
+        if ! command -v modinfo >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y kmod
+        fi
+        if bash "$ROOT_DIR/scripts/fetch-prebuilt.sh" "$BUILD_DIR/prebuilt/$KVER" "$KVER"; then
+            MODULE="$CACHED_PREBUILT"
+        fi
+    fi
+fi
+
+if [ -z "$MODULE" ]; then
+    echo "No verified prebuilt module is available. Preparing a source build."
     missing=0
     for cmd in git patch make gcc bc modinfo; do
         if ! command -v "$cmd" >/dev/null 2>&1; then missing=1; fi
@@ -32,6 +50,7 @@ else
     BUILD_DIR="$BUILD_DIR" JOBS="$JOBS" bash "$ROOT_DIR/scripts/build.sh"
     MODULE="$BUILD_DIR/output/8189fs.ko"
 fi
+
 [ -s "$MODULE" ] || fail "Module file not found: $MODULE"
 echo
 echo "Module: $MODULE"
