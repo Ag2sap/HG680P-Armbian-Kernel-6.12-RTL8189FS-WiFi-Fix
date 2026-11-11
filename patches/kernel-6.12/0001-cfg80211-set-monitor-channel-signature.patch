@@ -1,4 +1,4 @@
-From: HG680P Armbian RTL8189FS Wi-Fi Fix maintainers
+From: HG680P WiFi Fix – Armbian ARM64 RTL8189FS Driver maintainers
 Subject: [PATCH] cfg80211: use the three-argument monitor-channel callback on Linux 6.12
 
 The Linux 6.12 headers used by the tested Armbian 6.12.114-ophub build
