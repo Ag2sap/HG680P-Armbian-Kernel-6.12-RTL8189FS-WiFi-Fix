@@ -28,10 +28,16 @@ The installer downloads assets from the latest release only when both files exis
 
 ## Current status
 
-A build and runtime installation have been verified on HG680P with Armbian 26.11.0 Noble and kernel 6.12.114-ophub. The actual tested module binary remains on the test device and has not yet been uploaded as a GitHub Release asset. The helper `scripts/stage-prebuilt.sh` is provided to stage that exact installed module without rebuilding it.
-
-The installer also accepts a local matching module at:
+The exact installed module from the tested HG680P has been staged and committed in this repository at:
 
     prebuilt/6.12.114-ophub/8189fs.ko
 
-On the tested HG680P, from the repository checkout, run `bash scripts/stage-prebuilt.sh`. This copies `/lib/modules/$(uname -r)/updates/8189fs.ko` into `prebuilt/$(uname -r)/8189fs.ko` after validating its kernel vermagic and cfg80211 dependency. Review and commit the binary, then push a version tag such as v1.0.0. The release-prebuilt workflow checks vermagic and cfg80211, generates the SHA-256 file, and publishes both assets automatically. Do not substitute the upstream 6.1.170-ophub module; its vermagic is not compatible with 6.12.114-ophub.
+The staged file's SHA-256 was compared with `/lib/modules/6.12.114-ophub/updates/8189fs.ko` on the test device; both hashes matched:
+
+    7714cf5761ef8514c7c88c0c37619cc1c77c8f9002b92cfe4fa0a2d1e3fee735
+
+The tested environment is HG680P, Amlogic S905X, Armbian 26.11.0 Noble ARM64, kernel 6.12.114-ophub, using the P212 device tree. Wi-Fi scanning, connection, connectivity, and autoload after reboot were verified.
+
+The binary is present in the repository, but the downloadable GitHub Release asset has not yet been published. Push a version tag such as `v1.0.0` to trigger `.github/workflows/release-prebuilt.yml`. The workflow checks each module's vermagic against its directory name, verifies the cfg80211 dependency, generates a SHA-256 file, and creates a GitHub Release with both assets. The installer can use the local matching file from the repository before a release is available.
+
+Do not substitute the upstream 6.1.170-ophub module; its vermagic is not compatible with 6.12.114-ophub.
