@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 [ "$EUID" -eq 0 ] || { echo "Run through install.sh or with sudo." >&2; exit 1; }
+fail() { echo "ERROR: $*" >&2; exit 1; }
+[ "$#" -eq 2 ] || fail "Usage: install-module.sh /path/to/8189fs.ko kernel-release"
 MODULE="$1"
 TARGET_KERNEL="$2"
 CURRENT_KERNEL=$(uname -r)
@@ -10,7 +12,6 @@ CONFIG="/etc/modules-load.d/hg680p-rtl8189fs.conf"
 BACKUP_DIR="/var/backups/hg680p-rtl8189fs"
 STATE_DIR="/var/lib/hg680p-rtl8189fs"
 STAMP=$(date +%Y%m%d-%H%M%S)
-fail() { echo "ERROR: $*" >&2; exit 1; }
 
 [ -n "$MODULE" ] && [ -f "$MODULE" ] || fail "Usage: install-module.sh /path/to/8189fs.ko kernel-release"
 [ "$TARGET_KERNEL" = "$CURRENT_KERNEL" ] || fail "Requested kernel $TARGET_KERNEL differs from running kernel $CURRENT_KERNEL."
