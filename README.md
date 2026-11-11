@@ -80,7 +80,7 @@ Do not run an upstream installation script without first reviewing what it chang
 
 In the tested source revision, the kernel-version condition for `cfg80211_rtw_set_monitor_channel` in `os_dep/linux/ioctl_cfg80211.c` used a 6.13 threshold. The 6.12 headers on the tested system require the three-argument callback, so the condition was adjusted to 6.12.
 
-The exact patch will be maintained in this repository once the patch file has been added. Do not apply a blind text substitution to a different upstream revision: inspect the function and surrounding version checks first.
+The maintained patch is available at [`patches/kernel-6.12/0001-cfg80211-set-monitor-channel-signature.patch`](patches/kernel-6.12/0001-cfg80211-set-monitor-channel-signature.patch). It changes the version threshold from 6.13 to 6.12 for the three-argument callback used by the tested kernel. Apply it from the root of a clean upstream source checkout with `patch -p1 < /path/to/0001-cfg80211-set-monitor-channel-signature.patch`. Review the patch before applying it to a different upstream revision; the context may need adjustment.
 
 ### 4. Build
 
