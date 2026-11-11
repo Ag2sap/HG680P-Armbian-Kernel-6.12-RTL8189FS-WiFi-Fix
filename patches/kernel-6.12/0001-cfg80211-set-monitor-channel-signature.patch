@@ -25,7 +25,7 @@ Tested on:
 diff --git a/os_dep/linux/ioctl_cfg80211.c b/os_dep/linux/ioctl_cfg80211.c
 --- a/os_dep/linux/ioctl_cfg80211.c
 +++ b/os_dep/linux/ioctl_cfg80211.c
-@@ -6009,7 +6009,7 @@ static int cfg80211_rtw_set_monitor_channel(struct wiphy *wiphy
+@@ -6009,4 +6009,4 @@ static int cfg80211_rtw_set_monitor_channel(struct wiphy *wiphy
 -#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 13, 0))
 +#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 12, 0))
  	, struct net_device *dev
