@@ -100,7 +100,7 @@ The tested setup used an external HDD for source and build output. The project d
 
 The diagnostic script reports kernel/header state, SDIO IDs, module metadata, interfaces, and recent driver messages. Uninstall asks for confirmation, unloads the driver if not in use, removes this project's module and only its own autoload configuration, restores a backed-up module if one exists, and runs depmod.
 
-See [Installation guide](docs/INSTALLATION.md) for details.
+See [Installation guide](docs/INSTALLATION.md) and [Troubleshooting](docs/TROUBLESHOOTING.md) for details.
 
 ## Upstream source and patch
 
