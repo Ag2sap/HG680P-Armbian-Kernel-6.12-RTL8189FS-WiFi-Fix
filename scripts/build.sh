@@ -94,6 +94,20 @@ case ",$DEPENDENCIES," in *,cfg80211,*) ;; *) fail "Expected cfg80211 dependency
 install -m 0644 "$BUILT_MODULE" "$OUTPUT_DIR/8189fs.ko"
 printf '%s\n' "$KVER" > "$OUTPUT_DIR/kernel-release.txt"
 printf '%s\n' "$UPSTREAM_COMMIT" > "$OUTPUT_DIR/upstream-commit.txt"
+
+# Keep only the verified module and build log by default. Retain source on request.
+if [ "\${KEEP_SOURCE:-0}" != "1" ]; then
+    case "$SOURCE_DIR" in
+        "$BUILD_DIR"/source-*)
+            rm -rf -- "$SOURCE_DIR"
+            echo "Cleaned downloaded source and compiler artifacts."
+            ;;
+        *) fail "Refusing to clean unexpected source path: $SOURCE_DIR" ;;
+    esac
+else
+    echo "Keeping source tree because KEEP_SOURCE=1."
+fi
+
 echo
 echo "BUILD SUCCESS"
 echo "Module: $OUTPUT_DIR/8189fs.ko"
