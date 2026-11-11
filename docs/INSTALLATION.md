@@ -35,7 +35,7 @@ The installer uses sudo for missing prerequisites, module installation, depmod, 
 4. Verifies release asset SHA-256, module vermagic, and cfg80211 dependency.
 5. If no verified prebuilt is available, fetches the pinned upstream source and applies the maintained kernel 6.12 callback patch.
 6. Builds using CONFIG_CC_HAS_MIN_FUNCTION_ALIGNMENT= and KCFLAGS=-Wno-error.
-7. Verifies module output and matching vermagic/dependency metadata.
+7. Verifies module output and matching vermagic/dependency metadata. After a successful build, removes the downloaded source tree and compiler artifacts by default; the verified module and build log remain in BUILD_DIR. Set KEEP_SOURCE=1 to retain the source tree for debugging.
 8. Requests confirmation before system-level installation.
 9. Installs under /lib/modules/KERNEL/updates/, runs depmod, and enables boot-time loading.
 
@@ -52,7 +52,7 @@ Generate the checksum file alongside the module using:
 
     sha256sum 8189fs-KERNEL.ko > 8189fs-KERNEL.ko.sha256
 
-The actual prebuilt for 6.12.114-ophub has not yet been uploaded. Until then, the installer falls back to source compilation. Do not use the upstream 6.1.170-ophub module on kernel 6.12.114-ophub.
+The actual prebuilt for 6.12.114-ophub has not yet been uploaded. On the tested device, run `bash scripts/stage-prebuilt.sh` from the repository checkout to stage the already-installed module under `prebuilt/$(uname -r)/8189fs.ko`; commit it and push a version tag to publish the release assets. Until then, the installer falls back to source compilation. Do not use the upstream 6.1.170-ophub module on kernel 6.12.114-ophub.
 
 ## 6. Diagnostics and uninstall
 
