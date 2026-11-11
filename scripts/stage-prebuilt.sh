@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
+# Debian/Armbian may omit administrative command directories from a
+# non-root user's PATH even though tools such as modinfo are installed.
+PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
+export PATH
+
 ROOT_DIR=$(cd -- "$(dirname -- "$0")/.." && pwd)
 KVER=$(uname -r)
 SOURCE_MODULE="/lib/modules/$KVER/updates/8189fs.ko"
