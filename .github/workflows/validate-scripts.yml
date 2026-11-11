@@ -20,12 +20,13 @@ jobs:
         run: |
           bash -n install.sh
           bash -n scripts/build.sh
+          bash -n scripts/stage-prebuilt.sh
           bash -n scripts/install-module.sh
           bash -n scripts/fetch-prebuilt.sh
           bash -n scripts/uninstall.sh
           bash -n scripts/diagnose.sh
       - name: Run ShellCheck
-        run: shellcheck install.sh scripts/build.sh scripts/install-module.sh scripts/fetch-prebuilt.sh scripts/uninstall.sh scripts/diagnose.sh
+        run: shellcheck install.sh scripts/build.sh scripts/stage-prebuilt.sh scripts/install-module.sh scripts/fetch-prebuilt.sh scripts/uninstall.sh scripts/diagnose.sh
       - name: Verify patch applies to pinned upstream source
         run: |
           git init upstream-check
