@@ -73,6 +73,9 @@ else
     fail "Patch does not match the pinned upstream source. Build stopped."
 fi
 
+actual_diff=$(git -C "$SOURCE_DIR" diff --numstat | tr '\t' ' ')
+[ "$actual_diff" = "1 1 os_dep/linux/ioctl_cfg80211.c" ] || fail "Source tree contains changes beyond the single maintained cfg80211 patch."
+
 echo "Building for $KVER with $JOBS job(s). Log: $LOG_FILE"
 if ! make -C "$SOURCE_DIR" -j"$JOBS" ARCH=arm64 KSRC="$KERNEL_BUILD" CONFIG_CC_HAS_MIN_FUNCTION_ALIGNMENT= KCFLAGS=-Wno-error > "$LOG_FILE" 2>&1; then
     echo "Build failed. Last 100 log lines:"
