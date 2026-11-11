@@ -24,7 +24,7 @@ jobs:
           set -Eeuo pipefail
           shopt -s nullglob
           modules=(prebuilt/*/8189fs.ko)
-          if (("${#modules[@]}" == 0)); then
+          if ((${#modules[@]} == 0)); then
             echo "No prebuilt modules found. Add prebuilt/KERNEL/8189fs.ko before tagging a release." >&2
             exit 1
           fi
