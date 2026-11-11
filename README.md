@@ -15,7 +15,7 @@ Run the installer as your normal user (do not prefix it with sudo):
 
     bash install.sh
 
-To keep source files and build logs on an external HDD:
+To keep the build workspace and logs on an external HDD:
 
     BUILD_DIR=/media/devmon/HardDisk/rtl8189fs-build bash install.sh
 
