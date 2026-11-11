@@ -13,14 +13,25 @@ Prebuilt modules are kernel-build specific. They are not interchangeable merely 
 7. Confirm module autoload and Wi-Fi operation after reboot.
 8. Record SHA-256 checksum and tested hardware, image, and kernel details.
 
+## Release asset names
+
+For a kernel release KERNEL, publish both files in the same GitHub Release:
+
+    8189fs-KERNEL.ko
+    8189fs-KERNEL.ko.sha256
+
+Generate the checksum file in the same directory as the module:
+
+    sha256sum 8189fs-KERNEL.ko > 8189fs-KERNEL.ko.sha256
+
+The installer downloads assets from the latest release only when both files exist. It verifies the checksum, vermagic, and cfg80211 dependency before installing. If the assets are absent, it falls back to a source build.
+
 ## Current status
 
 A build and runtime installation have been verified on HG680P with Armbian 26.11.0 Noble and kernel 6.12.114-ophub. The actual tested module binary remains on the test device and has not yet been uploaded as a GitHub Release asset.
 
-The installer already supports a matching local module at:
+The installer also accepts a local matching module at:
 
     prebuilt/6.12.114-ophub/8189fs.ko
 
-Once the binary is supplied and verified, it can be attached to a versioned GitHub Release. Users should download only the asset matching their exact kernel release.
-
-Do not substitute the upstream 6.1.170-ophub module; its vermagic is not compatible with 6.12.114-ophub.
+Once the binary is supplied and verified, it can be attached to a versioned GitHub Release. Do not substitute the upstream 6.1.170-ophub module; its vermagic is not compatible with 6.12.114-ophub.
