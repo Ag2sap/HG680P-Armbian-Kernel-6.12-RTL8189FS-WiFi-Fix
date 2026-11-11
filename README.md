@@ -1,4 +1,4 @@
-# HG680P Armbian RTL8189FS Wi-Fi Driver Fix (Kernel 6.12)
+# HG680P WiFi Fix – Armbian ARM64 RTL8189FS Driver (Kernel 6.12)
 
 A focused build and installation helper for the Realtek RTL8189FS SDIO Wi-Fi adapter on Armbian ARM64, especially the HG680P TV box with Amlogic S905X. This project provides a tested Linux Wi-Fi driver fix for Armbian kernel 6.12. It automates the cfg80211 compatibility patch, compiler workarounds, kernel-module build, installation, verification, and boot-time module loading.\n\n**Search keywords:** HG680P RTL8189FS driver, Armbian Wi-Fi fix, Amlogic S905X SDIO wireless, Linux kernel 6.12 Realtek driver, `024c:f179`.
 
@@ -8,8 +8,8 @@ A focused build and installation helper for the Realtek RTL8189FS SDIO Wi-Fi ada
 
 Clone this repository on the Armbian device:
 
-    git clone https://github.com/Ag2sap/HG680P-Armbian-Kernel-6.12-RTL8189FS-WiFi-Fix.git
-    cd HG680P-Armbian-Kernel-6.12-RTL8189FS-WiFi-Fix
+    git clone https://github.com/Ag2sap/HG680P-WiFi-Fix-Armbian-ARM64-RTL8189FS-Driver-Kernel-6.12-.git
+    cd HG680P-WiFi-Fix-Armbian-ARM64-RTL8189FS-Driver-Kernel-6.12-
 
 Run the installer as your normal user (do not prefix it with sudo):
 
@@ -53,7 +53,7 @@ The installer can also download a matching asset from the latest GitHub Release.
 
 On the tested HG680P, after installing and validating the driver, run `bash scripts/stage-prebuilt.sh` from this repository to copy the installed module into `prebuilt/$(uname -r)/8189fs.ko`. Review and commit that binary, then push a version tag such as v1.0.0. The release workflow validates vermagic and cfg80211, generates the checksum file, and publishes both assets. The installer verifies the checksum, vermagic, and cfg80211 dependency before using the binary. If no release asset is available, it falls back to source compilation.
 
-The tested module for kernel **6.12.114-ophub** is committed at `prebuilt/6.12.114-ophub/8189fs.ko`, and the **[v1.0.0 GitHub Release is published](https://github.com/Ag2sap/HG680P-Armbian-Kernel-6.12-RTL8189FS-WiFi-Fix/releases/tag/v1.0.0)**. It includes the kernel-specific module and SHA-256 checksum. The checksum was verified against the installed, working module on the HG680P test device. The installer verifies checksum, vermagic, and cfg80211 dependency before using a downloaded release binary. For other kernels, it falls back to source compilation when no matching prebuilt is available. Do not use the upstream 6.1.170-ophub module on kernel 6.12.114-ophub.
+The tested module for kernel **6.12.114-ophub** is committed at `prebuilt/6.12.114-ophub/8189fs.ko`, and the **[v1.0.0 GitHub Release is published](https://github.com/Ag2sap/HG680P-WiFi-Fix-Armbian-ARM64-RTL8189FS-Driver-Kernel-6.12-/releases/tag/v1.0.0)**. It includes the kernel-specific module and SHA-256 checksum. The checksum was verified against the installed, working module on the HG680P test device. The installer verifies checksum, vermagic, and cfg80211 dependency before using a downloaded release binary. For other kernels, it falls back to source compilation when no matching prebuilt is available. Do not use the upstream 6.1.170-ophub module on kernel 6.12.114-ophub.
 
 See [Prebuilt module policy](docs/PREBUILT-MODULE.md).
 
