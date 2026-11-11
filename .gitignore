@@ -3,6 +3,9 @@
 /source-*/
 *.log
 *.ko
+!prebuilt/
+!prebuilt/**/
+!prebuilt/**/*.ko
 *.o
 *.mod
 *.mod.c
