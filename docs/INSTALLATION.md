@@ -8,8 +8,8 @@ The installer checks architecture, kernel headers, SDIO ID, patch applicability,
 
 ## 1. Obtain this project
 
-    git clone https://github.com/Ag2sap/HG680P-Armbian-Kernel-6.12-RTL8189FS-WiFi-Fix.git
-    cd HG680P-Armbian-Kernel-6.12-RTL8189FS-WiFi-Fix
+    git clone https://github.com/Ag2sap/HG680P-WiFi-Fix-Armbian-ARM64-RTL8189FS-Driver-Kernel-6.12-.git
+    cd HG680P-WiFi-Fix-Armbian-ARM64-RTL8189FS-Driver-Kernel-6.12-
 
 ## 2. Choose a build location
 
