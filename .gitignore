@@ -1,0 +1,15 @@
+/build/
+/output/
+/source-*/
+*.log
+*.ko
+*.o
+*.mod
+*.mod.c
+*.order
+*.symvers
+.*.cmd
+Module.symvers
+modules.order
+.DS_Store
+Thumbs.db
