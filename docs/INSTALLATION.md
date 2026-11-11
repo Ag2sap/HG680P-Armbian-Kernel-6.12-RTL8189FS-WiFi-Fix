@@ -13,7 +13,7 @@ The installer checks architecture, kernel headers, SDIO ID, patch applicability,
 
 ## 2. Choose a build location
 
-Source and logs can consume storage. Set BUILD_DIR to a writable data disk when available:
+The temporary source/build workspace and logs can consume storage. Set BUILD_DIR to a writable data disk when available:
 
     BUILD_DIR=/media/devmon/HardDisk/rtl8189fs-build bash install.sh
 
