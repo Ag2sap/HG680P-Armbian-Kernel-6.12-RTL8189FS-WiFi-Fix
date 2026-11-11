@@ -51,6 +51,10 @@ if [ -z "$MODULE" ]; then
     MODULE="$BUILD_DIR/output/8189fs.ko"
 fi
 
+if ! command -v modinfo >/dev/null 2>&1; then
+    sudo apt-get update
+    sudo apt-get install -y kmod
+fi
 [ -s "$MODULE" ] || fail "Module file not found: $MODULE"
 echo
 echo "Module: $MODULE"
