@@ -1,0 +1,52 @@
+name: Publish prebuilt kernel modules
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Install module metadata tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y kmod
+      - name: Validate and prepare release assets
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          shopt -s nullglob
+          modules=(prebuilt/*/8189fs.ko)
+          if (("\${#modules[@]}" == 0)); then
+            echo "No prebuilt modules found. Add prebuilt/KERNEL/8189fs.ko before tagging a release." >&2
+            exit 1
+          fi
+          mkdir -p release-assets
+          for module in "\${modules[@]}"; do
+            kernel=$(basename "$(dirname "$module")")
+            vermagic=$(modinfo -F vermagic "$module" | awk '{print $1}')
+            if [[ "$vermagic" != "$kernel" ]]; then
+              echo "Vermagic $vermagic does not match directory kernel $kernel: $module" >&2
+              exit 1
+            fi
+            dependencies=$(modinfo -F depends "$module")
+            case ",$dependencies," in
+              *,cfg80211,*) ;;
+              *) echo "cfg80211 dependency missing: $module" >&2; exit 1 ;;
+            esac
+            asset="8189fs-$kernel.ko"
+            cp "$module" "release-assets/$asset"
+            (cd release-assets && sha256sum "$asset" > "$asset.sha256")
+          done
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: \${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" release-assets/* --title "$GITHUB_REF_NAME" --generate-notes
