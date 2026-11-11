@@ -1,0 +1,33 @@
+From: HG680P Armbian RTL8189FS Wi-Fi Fix maintainers
+Subject: [PATCH] cfg80211: use the three-argument monitor-channel callback on Linux 6.12
+
+The Linux 6.12 headers used by the tested Armbian 6.12.114-ophub build
+declare the cfg80211 set_monitor_channel callback with a net_device
+argument and cfg80211_chan_def argument.
+
+The upstream source currently enables that callback signature starting
+at Linux 6.13. Lower the version threshold to 6.12 so the driver selects
+the matching three-argument callback for the tested 6.12 kernel.
+
+This is a narrow compatibility patch. It does not establish compatibility
+with every kernel carrying a 6.12 version number.
+
+Upstream source:
+https://github.com/gustiarto/rtl8189fs-armbian
+
+Tested on:
+- HG680P (Amlogic S905X)
+- Armbian 26.11.0 Ubuntu Noble
+- Linux 6.12.114-ophub
+- RTL8189FS SDIO 024c:f179
+
+---
+diff --git a/os_dep/linux/ioctl_cfg80211.c b/os_dep/linux/ioctl_cfg80211.c
+--- a/os_dep/linux/ioctl_cfg80211.c
++++ b/os_dep/linux/ioctl_cfg80211.c
+@@ -6009,7 +6009,7 @@ static int cfg80211_rtw_set_monitor_channel(struct wiphy *wiphy
+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 13, 0))
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 12, 0))
+ 	, struct net_device *dev
+ 	, struct cfg80211_chan_def *chandef
+ #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 8, 0))
