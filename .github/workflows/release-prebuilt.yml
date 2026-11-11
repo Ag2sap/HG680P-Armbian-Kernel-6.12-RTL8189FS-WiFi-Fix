@@ -24,12 +24,12 @@ jobs:
           set -Eeuo pipefail
           shopt -s nullglob
           modules=(prebuilt/*/8189fs.ko)
-          if (("\${#modules[@]}" == 0)); then
+          if (("${#modules[@]}" == 0)); then
             echo "No prebuilt modules found. Add prebuilt/KERNEL/8189fs.ko before tagging a release." >&2
             exit 1
           fi
           mkdir -p release-assets
-          for module in "\${modules[@]}"; do
+          for module in "${modules[@]}"; do
             kernel=$(basename "$(dirname "$module")")
             vermagic=$(modinfo -F vermagic "$module" | awk '{print $1}')
             if [[ "$vermagic" != "$kernel" ]]; then
@@ -47,6 +47,6 @@ jobs:
           done
       - name: Publish GitHub Release
         env:
-          GH_TOKEN: \${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh release create "$GITHUB_REF_NAME" release-assets/* --title "$GITHUB_REF_NAME" --generate-notes
