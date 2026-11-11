@@ -25,3 +25,10 @@ jobs:
           bash -n scripts/diagnose.sh
       - name: Run ShellCheck
         run: shellcheck install.sh scripts/build.sh scripts/install-module.sh scripts/uninstall.sh scripts/diagnose.sh
+      - name: Verify patch applies to pinned upstream source
+        run: |
+          git init upstream-check
+          git -C upstream-check remote add origin https://github.com/gustiarto/rtl8189fs-armbian.git
+          git -C upstream-check fetch --depth 1 origin 786a5816a3731d57aee9eaa97744b89c4b799417
+          git -C upstream-check checkout --detach FETCH_HEAD
+          patch --dry-run -p1 -d upstream-check < patches/kernel-6.12/0001-cfg80211-set-monitor-channel-signature.patch
