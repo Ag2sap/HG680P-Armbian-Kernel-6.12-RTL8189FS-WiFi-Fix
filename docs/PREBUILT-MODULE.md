@@ -28,10 +28,10 @@ The installer downloads assets from the latest release only when both files exis
 
 ## Current status
 
-A build and runtime installation have been verified on HG680P with Armbian 26.11.0 Noble and kernel 6.12.114-ophub. The actual tested module binary remains on the test device and has not yet been uploaded as a GitHub Release asset.
+A build and runtime installation have been verified on HG680P with Armbian 26.11.0 Noble and kernel 6.12.114-ophub. The actual tested module binary remains on the test device and has not yet been uploaded as a GitHub Release asset. The helper `scripts/stage-prebuilt.sh` is provided to stage that exact installed module without rebuilding it.
 
 The installer also accepts a local matching module at:
 
     prebuilt/6.12.114-ophub/8189fs.ko
 
-Once the binary is supplied, commit it under prebuilt/KERNEL/8189fs.ko and push a version tag such as v1.0.0. The release-prebuilt workflow checks vermagic and cfg80211, generates the SHA-256 file, and publishes both assets automatically. Do not substitute the upstream 6.1.170-ophub module; its vermagic is not compatible with 6.12.114-ophub.
+On the tested HG680P, from the repository checkout, run `bash scripts/stage-prebuilt.sh`. This copies `/lib/modules/$(uname -r)/updates/8189fs.ko` into `prebuilt/$(uname -r)/8189fs.ko` after validating its kernel vermagic and cfg80211 dependency. Review and commit the binary, then push a version tag such as v1.0.0. The release-prebuilt workflow checks vermagic and cfg80211, generates the SHA-256 file, and publishes both assets automatically. Do not substitute the upstream 6.1.170-ophub module; its vermagic is not compatible with 6.12.114-ophub.
