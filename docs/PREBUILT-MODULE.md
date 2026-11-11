@@ -34,4 +34,4 @@ The installer also accepts a local matching module at:
 
     prebuilt/6.12.114-ophub/8189fs.ko
 
-Once the binary is supplied and verified, it can be attached to a versioned GitHub Release. Do not substitute the upstream 6.1.170-ophub module; its vermagic is not compatible with 6.12.114-ophub.
+Once the binary is supplied, commit it under prebuilt/KERNEL/8189fs.ko and push a version tag such as v1.0.0. The release-prebuilt workflow checks vermagic and cfg80211, generates the SHA-256 file, and publishes both assets automatically. Do not substitute the upstream 6.1.170-ophub module; its vermagic is not compatible with 6.12.114-ophub.
