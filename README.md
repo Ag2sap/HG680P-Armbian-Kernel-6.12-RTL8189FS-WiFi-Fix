@@ -1,5 +1,7 @@
 # HG680P WiFi Fix – Armbian ARM64 RTL8189FS Driver (Kernel 6.12)
 
+> **Prerequisite — Git:** Git may not be installed in every Armbian image. Check with `git --version`. If it is missing, install it before cloning this repository: run `apt update && apt install -y git` when logged in as `root`, or `sudo apt update && sudo apt install -y git` from a regular user account.
+
 A focused build and installation helper for the Realtek RTL8189FS SDIO Wi-Fi adapter on Armbian ARM64, especially the HG680P TV box with Amlogic S905X. This project provides a tested Linux Wi-Fi driver fix for Armbian kernel 6.12. It automates the cfg80211 compatibility patch, compiler workarounds, kernel-module build, installation, verification, and boot-time module loading.\n\n**Search keywords:** HG680P RTL8189FS driver, Armbian Wi-Fi fix, Amlogic S905X SDIO wireless, Linux kernel 6.12 Realtek driver, `024c:f179`.
 
 > **Tested configuration:** FiberHome HG680P, Amlogic S905X, Armbian 26.11.0 Ubuntu Noble ARM64, kernel 6.12.114-ophub, P212 device tree, RTL8189FS SDIO 024c:f179. Other combinations are not yet verified.
