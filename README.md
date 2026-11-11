@@ -51,7 +51,7 @@ The installer can also download a matching asset from the latest GitHub Release.
     8189fs-KERNEL.ko
     8189fs-KERNEL.ko.sha256
 
-The checksum file must be generated with sha256sum and include the asset filename. The installer verifies the checksum, vermagic, and cfg80211 dependency before using the binary. If no release asset is available, it falls back to source compilation.
+Commit the matching module under prebuilt/KERNEL/8189fs.ko, then push a version tag such as v1.0.0. The release workflow validates vermagic and cfg80211, generates the checksum file, and publishes both assets. The installer verifies the checksum, vermagic, and cfg80211 dependency before using the binary. If no release asset is available, it falls back to source compilation.
 
 A downloadable prebuilt for kernel 6.12.114-ophub has **not yet been published** because the exact tested .ko file still needs to be uploaded from the test device. We will publish it only after checking its metadata and SHA-256 checksum. Do not use the upstream 6.1.170-ophub module on kernel 6.12.114-ophub.
 
