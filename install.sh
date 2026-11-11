@@ -45,6 +45,12 @@ if [ -z "$MODULE" ] && [ -f "$CACHED_PREBUILT" ]; then
     fi
 fi
 
+if [ -z "$MODULE" ] && ! command -v curl >/dev/null 2>&1; then
+    echo "curl is needed to check for a downloadable prebuilt module."
+    sudo apt-get update
+    sudo apt-get install -y curl
+fi
+
 if [ -z "$MODULE" ] && command -v curl >/dev/null 2>&1 && command -v sha256sum >/dev/null 2>&1; then
     if bash "$ROOT_DIR/scripts/fetch-prebuilt.sh" "$BUILD_DIR/prebuilt/$KVER" "$KVER"; then
         if valid_module "$CACHED_PREBUILT"; then MODULE="$CACHED_PREBUILT"; fi
