@@ -8,7 +8,8 @@ DEST_MODULE="$DEST_DIR/8189fs.ko"
 
 fail() { echo "ERROR: $*" >&2; exit 1; }
 
-[ "$EUID" -ne 0 ] || fail "Run as your normal user; sudo is not required."
+# This script only reads the installed module and copies it into this repository.
+# It is safe to run as root or as a normal user with the required file permissions.
 [ -r "$SOURCE_MODULE" ] || fail "Installed module not found or unreadable: $SOURCE_MODULE"
 command -v modinfo >/dev/null 2>&1 || fail "modinfo is required (install kmod)."
 command -v sha256sum >/dev/null 2>&1 || fail "sha256sum is required."
