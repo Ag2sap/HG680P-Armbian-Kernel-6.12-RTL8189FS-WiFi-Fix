@@ -38,7 +38,7 @@ Default build parallelism is two jobs. Set JOBS=1 if memory is limited.
 - Preserves installer state so uninstall removes only configuration created by this project.
 - Keeps build logs in BUILD_DIR.
 
-The installer does not replace Armbian, change U-Boot, modify Wi-Fi credentials, or configure NetworkManager.
+The installer does not replace Armbian, change U-Boot, modify Wi-Fi credentials, or configure NetworkManager. After a successful source build, the downloaded source tree and compiler artifacts are removed by default; the verified module and build log remain in BUILD_DIR. Set KEEP_SOURCE=1 when running the installer to retain the source tree for debugging.
 
 ## Prebuilt module
 
@@ -51,9 +51,9 @@ The installer can also download a matching asset from the latest GitHub Release.
     8189fs-KERNEL.ko
     8189fs-KERNEL.ko.sha256
 
-Commit the matching module under prebuilt/KERNEL/8189fs.ko, then push a version tag such as v1.0.0. The release workflow validates vermagic and cfg80211, generates the checksum file, and publishes both assets. The installer verifies the checksum, vermagic, and cfg80211 dependency before using the binary. If no release asset is available, it falls back to source compilation.
+On the tested HG680P, after installing and validating the driver, run `bash scripts/stage-prebuilt.sh` from this repository to copy the installed module into `prebuilt/$(uname -r)/8189fs.ko`. Review and commit that binary, then push a version tag such as v1.0.0. The release workflow validates vermagic and cfg80211, generates the checksum file, and publishes both assets. The installer verifies the checksum, vermagic, and cfg80211 dependency before using the binary. If no release asset is available, it falls back to source compilation.
 
-A downloadable prebuilt for kernel 6.12.114-ophub has **not yet been published** because the exact tested .ko file still needs to be uploaded from the test device. We will publish it only after checking its metadata and SHA-256 checksum. Do not use the upstream 6.1.170-ophub module on kernel 6.12.114-ophub.
+A downloadable prebuilt for kernel 6.12.114-ophub has **not yet been published**; the exact tested .ko file still needs to be staged from the test device and committed. We will publish it only after checking its metadata and SHA-256 checksum. Do not use the upstream 6.1.170-ophub module on kernel 6.12.114-ophub.
 
 See [Prebuilt module policy](docs/PREBUILT-MODULE.md).
 
