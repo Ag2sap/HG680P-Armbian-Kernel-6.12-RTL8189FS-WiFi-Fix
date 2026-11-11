@@ -96,7 +96,7 @@ printf '%s\n' "$KVER" > "$OUTPUT_DIR/kernel-release.txt"
 printf '%s\n' "$UPSTREAM_COMMIT" > "$OUTPUT_DIR/upstream-commit.txt"
 
 # Keep only the verified module and build log by default. Retain source on request.
-if [ "\${KEEP_SOURCE:-0}" != "1" ]; then
+if [ "${KEEP_SOURCE:-0}" != "1" ]; then
     case "$SOURCE_DIR" in
         "$BUILD_DIR"/source-*)
             rm -rf -- "$SOURCE_DIR"
