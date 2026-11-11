@@ -35,4 +35,4 @@ After the installer has produced and validated the module, the exact module can 
     cp /lib/modules/$(uname -r)/updates/8189fs.ko /media/devmon/HardDisk/8189fs-6.12.114-ophub.ko
     sha256sum /media/devmon/HardDisk/8189fs-6.12.114-ophub.ko
 
-Before publishing it, confirm the module still reports vermagic 6.12.114-ophub and cfg80211 dependency. The binary must then be attached to a GitHub Release together with a checksum file named 8189fs-6.12.114-ophub.ko.sha256.
+Before publishing it, confirm the module still reports vermagic 6.12.114-ophub and cfg80211 dependency. Commit the binary at prebuilt/6.12.114-ophub/8189fs.ko, then push a version tag (for example v1.0.0). The release-prebuilt GitHub Actions workflow validates the module, generates 8189fs-6.12.114-ophub.ko.sha256, and publishes both release assets.
